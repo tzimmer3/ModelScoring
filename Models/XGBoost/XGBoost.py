@@ -1,5 +1,6 @@
-
-# Import Packages
+########################################
+#  Import Packages & Data
+########################################
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -18,10 +19,12 @@ from sklearn.preprocessing import OneHotEncoder
 
 # Import Data
 filepath = "C:\\Users\\hlmq\\OneDrive - Chevron\\Data\\DSDP\\Ames\\"
-
 df = pd.read_csv(str(filepath)+"AmesHousing.csv")
 
 
+########################################
+#  Model Preparation
+########################################
 # Subset dataset to only columns for modeling.
 X = df[independent]
 y = df[target]
@@ -40,6 +43,9 @@ for col in dummy_code_columns:
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random_state=0)
 
 
+########################################
+#  Modeling
+########################################
 # XGBoost Modeling.  Cross fold validation and grid search to find best parameters.
 
 xgboost_model = xgb.XGBRegressor()
@@ -48,8 +54,6 @@ xgboost_model = xgb.XGBRegressor()
 independent_columns = X_test.columns
 
 # Initialize parameter grid for XGBoost. Shortened for brevity
-
-
 
 # Initialize grid_search.  If it takes too long, lower the crossvalidation number
 grid_search = GridSearchCV(estimator=xgboost_model,
@@ -65,10 +69,7 @@ grid_search.fit(X_train, y_train)
 print("Best CV accuracy: {}, with parameters: {}".format(
     grid_search.best_score_, grid_search.best_params_))
 
-
-
 cv_best_model = grid_search.best_estimator_
-
 
 # Add predictions to test dataset
 y_test['Prediction'] = cv_best_model.predict(X_test)
@@ -77,7 +78,9 @@ y_test['Prediction'] = cv_best_model.predict(X_test)
 y_test['Residual'] = y_test['Target']-y_test['Prediction']
 
 
-# Make sure to modify the file name!!!!!
+########################################
+#  Export Model and Predictions
+########################################
 
 # Use this if you want to export any data
 filepath = 'Models\\XGBoost\\out\\'
