@@ -6,6 +6,7 @@ warnings.filterwarnings("ignore")
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from datetime import datetime
 
 #XGBoost
 import xgboost as xgb
@@ -73,8 +74,9 @@ y_test['Residual'] = y_test['Target']-y_test['Prediction']
 
 # Use this if you want to export any data
 filepath = 'Models\\XGBoost\\out\\'
-checked_time = '12'
-filename_submission = str('XGBoost_Regressor_Results'+ checked_time +'.csv'
+now = datetime.now()
+current_time = now.strftime("%Y_%m_%d-%H_%M_%S")
+filename_submission = current_time + '_XGBoost_Regressor_Results.csv'
 output_data = y_test
 
 output_data.to_csv(filepath+filename_submission, sep=',', index = False)
