@@ -28,6 +28,13 @@ y = df[target]
 y.columns = ['Target']
 
 
+# This will DROP the original column and create dummies for categorical variables
+
+for col in dummy_code_columns:
+    X = pd.get_dummies(X, columns=[col])
+    X.drop(X.columns[len(X.columns)-1], axis=1, inplace=True)
+
+
 # Train,Test Split
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random_state=0)
