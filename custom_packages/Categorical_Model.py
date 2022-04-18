@@ -1,10 +1,36 @@
-import numpy as np
+
+
+
+
+
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+from sklearn.metrics import precision_recall_fscore_support, accuracy_score, matthews_corrcoef
 
-# 
-def feature_importance(model, column_names):
+########################################
+# Categorical Accuracy Table
+########################################
+def categorical_accuracy_table(target, prediction):
+
+    precision, recall, f1_score, _ = precision_recall_fscore_support(
+        target, prediction, average='weighted')
+    accuracy = accuracy_score(prediction, target)
+    mcc = matthews_corrcoef(prediction, target)
+
+    measures = ['Accuracy','F1_Score','Precision', 'Recall', 'MCC']
+    scores = [accuracy, f1_score, precision, recall, mcc]
+    
+    accuracytable = pd.DataFrame({'Measure': measures, 'Value': scores})
+    
+    return accuracytable
+
+
+########################################
+# Categorical Feature Importance
+########################################
+def categorical_feature_importance(model, column_names):
 
     # Variable Importance Bar Graph
 
@@ -20,7 +46,9 @@ def feature_importance(model, column_names):
     plt.show()
     
 
-#
+########################################
+# Confusion Matrix
+########################################
 def confusion_matrix(target, prediction):    
     # Create data for a confusion matrix 
     confusion_matrix_data = pd.crosstab(target, prediction)

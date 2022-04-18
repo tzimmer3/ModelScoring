@@ -6,7 +6,7 @@ from sklearn.metrics import r2_score, mean_squared_error
 
 
 ########################################
-# Accuracy Table
+# Continuous Accuracy Table
 ########################################
 
 # X_test, y_test[target],y_test['Prediction']
@@ -55,7 +55,7 @@ def residuals_vs_fitted(residuals, prediction):
 
 
 ########################################
-# Variable Importance Bar Graph
+# Continuous Feature Importance
 ########################################
 def feature_importance():
     feature_importance=pd.DataFrame({'xgboost_model':cv_best_model.feature_importances_},index=X_train.columns)
