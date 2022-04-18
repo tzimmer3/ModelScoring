@@ -30,7 +30,7 @@ def categorical_accuracy_table(target, prediction):
 ########################################
 # Categorical Feature Importance
 ########################################
-def categorical_feature_importance(model, column_names):
+def feature_importance(model, column_names):
 
     # Variable Importance Bar Graph
 

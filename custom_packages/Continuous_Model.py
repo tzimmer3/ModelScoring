@@ -52,19 +52,3 @@ def residuals_vs_fitted(residuals, prediction):
     # In this case, you only learn what the predictions look like to potentially see outliers, or trends.
     # Heteroskedasticity is not an assumption to check
     # Does not show how a particular observation fell in the tree.
-
-
-########################################
-# Continuous Feature Importance
-########################################
-def feature_importance():
-    feature_importance=pd.DataFrame({'xgboost_model':cv_best_model.feature_importances_},index=X_train.columns)
-    feature_importance.sort_values(by='xgboost_model',ascending=True,inplace=True)
-
-    index = np.arange(len(feature_importance))
-    fig, ax = plt.subplots(figsize=(12,8))
-    rfc_feature=ax.barh(index,feature_importance['xgboost_model'],0.4,color='dodgerblue',label='XGBoost Model')
-    ax.set(yticks=index+0.4,yticklabels=feature_importance.index)
-
-    ax.legend()
-    plt.show()
