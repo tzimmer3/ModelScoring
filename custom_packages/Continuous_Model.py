@@ -17,9 +17,9 @@ def accuracy_table(df, target, prediction):
     n = len(df)
     p = len(df.columns)
 
-    mse_value = mean_squared_error(target, prediction)
-    rmse_value = math.sqrt(mse_value) 
-    R2 = r2_score(target, prediction)
+    mse_value = np.round(mean_squared_error(target, prediction),decimals=4)
+    rmse_value = np.round(math.sqrt(mse_value),decimals=4)
+    R2 = np.round(r2_score(target, prediction),decimals=2)
     AdjR2 = 1-(1-R2)*(n-1)/(n-p-1)
 
     scores = [mse_value, rmse_value, R2, AdjR2]
