@@ -1,3 +1,4 @@
+import re
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -52,6 +53,14 @@ def collate_values(column):
     list_of_stats = np.round(list_of_stats, decimals=2)
     return list_of_stats
 
+
+def lower_CI(coefficient, se):
+    return coefficient - (1.96 * se)
+
+def upper_CI(coefficient, se):
+    return coefficient + (1.96 * se)
+
+
 ########################################
 # Summary Table
 ########################################
@@ -73,51 +82,25 @@ def summary_table(regressor, column_names):
     t_stats = collate_values(regressor.t)
     # P Value
     p_values = collate_values(regressor.p)
+    # Confidence Intervals
+    confidence_025 = [x-(1.96*y) for x, y in zip(coefficients, standard_errors)]
+    confidence_975 = [x+(1.96*y) for x, y in zip(coefficients, standard_errors)]
     # VIF
     
-    # Confidence Intervals
-
-    #coefficient - 1.96 * se
-
-    #coefficient + 1.96 * se
 
     summary_table = pd.DataFrame({'Feature Name': feature_names, 
                                    'Coefficient': coefficients,
                                 'Standard Error': standard_errors, 
                                    "T Statistic": t_stats, 
                                        "P Value": p_values,
+                               "Confidence .025": confidence_025, 
+                               "Confidence .975": confidence_975
                                    })
+
+
+
     
     return summary_table
-
-
- #########################################################
-    
-#FURTHER FEATURES TO ADD:
-    
- # GENERAL
-
-    #t_stats = 
-    #p_value = 
-    #confidence_025 =
-    #confidence_975 = 
-
-        # Standard Error Equation
-        # [1 - R2 / (1-Tolerance) * (N - K - 1)]   *   [SE(y) / SE(x)]
-        # Tolerance is the biggest problem child
-        # SE(y) is the standard deviation of Y (col.std())
-        # SE(x) is the standard deviation of X (each variable)
-        # Tolerance is the R2 value of variable in question vs the rest of the variables
-
-
-#summary_table = pd.DataFrame({'Column': XtrainA.columns, 
-#                              'Coefficient': regressor.coef_, 
-#                              'Standard Error': standard_errors, 
-#                              "T Statistic": t_stats, 
-#                              "P Value": p_values, 
-#                              "Confidence .025": confidence_025, 
-#                              "Confidence .975": confidence_975})
-
 
 
 ########################################
